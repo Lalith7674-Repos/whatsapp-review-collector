@@ -1,52 +1,23 @@
 # Backend - WhatsApp Review Collector
 
-This backend is a minimal FastAPI service that receives WhatsApp messages via Twilio webhook,
-runs a small conversation flow to collect: product name, user name, review text, and stores reviews
-in Postgres.
+FastAPI service that drives the WhatsApp conversation flow and persists reviews to PostgreSQL.
 
-## Quick start (local)
+## Running
 
-1. Create Python virtualenv and install deps:
+The backend runs automatically when you execute `docker compose up --build` from the repo root.
+If you want to run it manually:
 
 ```bash
+cd backend
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-```
-
-2. Configure Postgres:
-- Use Docker Compose (recommended) or local Postgres.
-- Example Docker Compose (root `docker-compose.yml`):
-  ```yaml
-  services:
-    db:
-      image: postgres:14
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: reviewsdb
-      ports:
-        - "5432:5432"
-  ```
-
-3. Create `.env` from `.env.example` and set `DATABASE_URL`.
-
-4. Run the app:
-
-```bash
+cp .env.example .env  # populate credentials
 uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-5. Expose to Twilio using `ngrok`:
-
-```bash
-ngrok http 8000
-```
-
-Set Twilio sandbox "WHEN A MESSAGE COMES IN" webhook to:
-`https://<ngrok-id>.ngrok.io/whatsapp`
-
-6. Use Twilio WhatsApp sandbox to send messages and test.
+Expose port 8000 publicly (ngrok/Codespaces/Gitpod) and point Twilio’s sandbox webhook to
+`https://<public-host>/whatsapp`.
 
 ## Endpoints
 
@@ -64,15 +35,12 @@ For production use, migrate state to Redis or a DB-backed `in_progress_reviews` 
 
 ## Tests
 
-Run tests with:
-
 ```bash
+cd backend
 pytest -q
 ```
 
-(Tests use the DB configured via `DATABASE_URL` — they will insert and then delete review rows.)
-
-## Next steps
+## Future improvements
 
 - Replace in-memory state with Redis for reliability.
 - Add authentication or admin UI as needed.

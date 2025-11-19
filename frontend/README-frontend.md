@@ -1,25 +1,22 @@
 # Frontend - WhatsApp Review Collector
 
-React frontend for displaying product reviews collected via WhatsApp.
+React frontend that renders the stored WhatsApp reviews.
 
 ## Quick Start
 
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start development server:
-```bash
-npm run dev
-```
-
-The app will run on `http://localhost:3000`
-
-3. Build for production:
-```bash
-npm run build
-```
+1. Install dependencies
+   ```bash
+   npm install
+   ```
+2. Start the dev server
+   ```bash
+   npm run dev
+   ```
+   App is available at http://localhost:3000 (proxying requests to `http://localhost:8000/api`).
+3. Build for production
+   ```bash
+   npm run build
+   ```
 
 ## Features
 
@@ -64,10 +61,4 @@ The `/api/reviews` endpoint should return a JSON array of review objects with th
   }
 ]
 ```
-
-## Development
-
-- Uses Vite for fast development
-- Hot module replacement (HMR) enabled
-- Proxy configured to forward `/api/*` requests to backend
 
